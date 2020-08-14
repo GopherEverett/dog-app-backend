@@ -46,9 +46,9 @@ def after_request(response):
     return response
 
 
-CORS(dog, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(dog, origins=['http://localhost:3000', 'https://doggitos.herokuapp.com/], supports_credentials=True)
 app.register_blueprint(dog, url_prefix='/api/v1/dogs')
-CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000', https://doggitos.herokuapp.com/], supports_credentials=True)
 app.register_blueprint(user, url_prefix='/user')
 
 if 'ON_HEROKU' in os.environ:
