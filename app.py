@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask, jsonify, request, g
 from flask_cors import CORS
 import models
 from flask_login import LoginManager
@@ -14,6 +14,10 @@ login_manager = LoginManager()
 # Initialize an instance of the Flask class.
 # This starts the website!
 app = Flask(__name__)
+
+app.config.update(
+    SESSION_COOKIE_SAMESITE='None',
+)
 
 app.secret_key = "LJAKLJLKJJLJKLSDJLKJASD"
 login_manager.init_app(app)
