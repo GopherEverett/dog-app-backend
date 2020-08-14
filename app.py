@@ -4,6 +4,7 @@ import models
 from flask_login import LoginManager
 from resources.dogs import dog
 from resources.user import user
+import os
 
 DEBUG = True
 PORT = 8000
@@ -17,12 +18,14 @@ app = Flask(__name__)
 app.secret_key = "LJAKLJLKJJLJKLSDJLKJASD"
 login_manager.init_app(app)
 
+
 @login_manager.user_loader
 def load_user(userid):
     try:
         return models.User.get(models.User.id == userid)
     except models.DoesNotExist:
         return None
+
 
 @app.before_request
 def before_request():
@@ -37,10 +40,15 @@ def after_request(response):
     g.db.close()
     return response
 
+
 CORS(dog, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(dog, url_prefix='/api/v1/dogs')
 CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(user, url_prefix='/user')
+
+if 'ON_HEROKU' in os.environ:
+    print('\non heroku!')
+    models.initialize()
 
 
 # Run the app when the program starts!
