@@ -15,6 +15,16 @@ def get_all_dogs():
     except models.DoesNotExist:
         return jsonify(data={}, status={"code": 401, "message": "Error getting the resources"})
 
+@dog.route('/dogsbyowner/<ownerid>', methods=["GET"])
+@login_required
+def get_all_dogs_by_owner(ownerid):
+    try:
+        dogs = [model_to_dict(dog) for dog in models.Dog.select().where(models.Dog.owner_id==ownerid)]
+        print(dogs)
+        return jsonify(data=dogs, status={"code": 200, "message": "Success"})
+    except models.DoesNotExist:
+        return jsonify(data=[], status={"code": 401, "message": "Error getting the resources"})
+
 @dog.route('/', methods=["POST"])
 @login_required
 def create_dogs():
