@@ -6,7 +6,6 @@ from playhouse.shortcuts import model_to_dict
 dog = Blueprint('dogs', 'dog')
 
 @dog.route('/', methods=["GET"])
-@login_required
 def get_all_dogs():
     try:
         dogs = [model_to_dict(dog) for dog in models.Dog.select()]
